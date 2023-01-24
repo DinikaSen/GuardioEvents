@@ -9,12 +9,15 @@ listener http:Listener httpListener = new (8090);
 listener asgardeo:Listener webhookListener = new (config, httpListener);
 
 contact:Client contactEp = check new (clientConfig = {
+    // auth : {
+    //   refreshUrl: "https://api.hubapi.com/oauth/v1/token",
+    //   refreshToken: "eu1-a362-015c-4126-b115-ffb1bb416dfd",
+    //   clientId: "f43a5973-5fec-4be8-b4f7-991112ad6188",
+    //   clientSecret: "26778767-46fd-4233-b855-1fa7f4c8a034",
+    //   scopes: ["contacts","crm.objects.contacts.write"]
+    // }
     auth : {
-      refreshUrl: "https://api.hubapi.com/oauth/v1/token",
-      refreshToken: "eu1-a362-015c-4126-b115-ffb1bb416dfd",
-      clientId: "f43a5973-5fec-4be8-b4f7-991112ad6188",
-      clientSecret: "26778767-46fd-4233-b855-1fa7f4c8a034",
-      scopes: ["contacts","crm.objects.contacts.write"]
+      token: "CLqGkKreMBINAAEAUAAAASAAAAAEARiChegMIOOwwhco_f1UMhSfL_wKnugOaR2tqyq2Z6_TaIIthDowAAAAQQAAAAAAAAAAAAAAAACGAAAAAAAAAAAAIAAAAAAA4DEAAAAAAEADgAEAABACQhSmgRSzwSZQNniLon71QlLpuYlj8EoDZXUxUgBaAA"
     }
 });
 
