@@ -30,12 +30,9 @@ service asgardeo:RegistrationService on webhookListener {
         if (userData is asgardeo:AddUserData) {
           contact:SimplePublicObject createResponse = check contactEp->create(payload = {
             "properties": {
-              "email": "example@hubspot.com",
-              "firstname": "Jane",
-              "lastname": "Doe",
-              "phone": "(555) 555-5555",
-              "company": "HubSpot",
-              "website": "hubspot.com",
+              "email": userData.userName,
+              "firstname": userData.claims["http://wso2.org/claims/givenname"],
+              "lastname": userData.claims["http://wso2.org/claims/lastname"],
               "lifecyclestage": "marketingqualifiedlead"
             }
           });
