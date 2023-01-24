@@ -8,24 +8,18 @@ configurable asgardeo:ListenerConfig config = ?;
 listener http:Listener httpListener = new (8090);
 listener asgardeo:Listener webhookListener = new (config, httpListener);
 
-contact:Client contactEp = check new (clientConfig = {
-    // auth : {
-    //   refreshUrl: "https://api.hubapi.com/oauth/v1/token",
-    //   refreshToken: "eu1-a362-015c-4126-b115-ffb1bb416dfd",
-    //   clientId: "f43a5973-5fec-4be8-b4f7-991112ad6188",
-    //   clientSecret: "26778767-46fd-4233-b855-1fa7f4c8a034",
-    //   scopes: ["contacts","crm.objects.contacts.write"]
-    // }
-    auth : {
-      token: "CLqGkKreMBINAAEAUAAAASAAAAAEARiChegMIOOwwhco_f1UMhSfL_wKnugOaR2tqyq2Z6_TaIIthDowAAAAQQAAAAAAAAAAAAAAAACGAAAAAAAAAAAAIAAAAAAA4DEAAAAAAEADgAEAABACQhSmgRSzwSZQNniLon71QlLpuYlj8EoDZXUxUgBaAA"
-    }
-});
-
 service asgardeo:RegistrationService on webhookListener {
 
     remote function onAddUser(asgardeo:AddUserEvent event) returns error? {      
         
         log:printInfo(event.toJsonString());
+
+        contact:Client contactEp = check new (clientConfig = {
+          auth : {
+            token: "CLqGkKreMBINAAEAUAAAASAAAAAEARiChegMIOOwwhco_f1UMhSfL_wKnugOaR2tqyq2Z6_TaIIthDowAAAAQQAAAAAAAAAAAAAAAACGAAAAAAAAAAAAIAAAAAAA4DEAAAAAAEADgAEAABACQhSmgRSzwSZQNniLon71QlLpuYlj8EoDZXUxUgBaAA"
+          }
+        });
+
         asgardeo:AddUserData? userData = event.eventData;
         if (userData is asgardeo:AddUserData) {
           contact:SimplePublicObject createResponse = check contactEp->create(payload = {
