@@ -13,15 +13,13 @@ service asgardeo:RegistrationService on webhookListener {
     remote function onAddUser(asgardeo:AddUserEvent event) returns error? {      
         
         log:printInfo(event.toJsonString());
-
-        contact:Client contactEp = check new (clientConfig = {
-          auth : {
-            token: "CLqGkKreMBINAAEAUAAAASAAAAAEARiChegMIOOwwhco_f1UMhSfL_wKnugOaR2tqyq2Z6_TaIIthDowAAAAQQAAAAAAAAAAAAAAAACGAAAAAAAAAAAAIAAAAAAA4DEAAAAAAEADgAEAABACQhSmgRSzwSZQNniLon71QlLpuYlj8EoDZXUxUgBaAA"
-          }
-        });
-
         asgardeo:AddUserData? userData = event.eventData;
         if (userData is asgardeo:AddUserData) {
+          contact:Client contactEp = check new (clientConfig = {
+          auth : {
+              token: "CLqGkKreMBINAAEAUAAAASAAAAAEARiChegMIOOwwhco_f1UMhSfL_wKnugOaR2tqyq2Z6_TaIIthDowAAAAQQAAAAAAAAAAAAAAAACGAAAAAAAAAAAAIAAAAAAA4DEAAAAAAEADgAEAABACQhSmgRSzwSZQNniLon71QlLpuYlj8EoDZXUxUgBaAA"
+            }
+          });
           contact:SimplePublicObject createResponse = check contactEp->create(payload = {
             "properties": {
               "email": userData.userName,
